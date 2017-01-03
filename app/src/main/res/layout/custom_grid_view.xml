@@ -1,0 +1,30 @@
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/activity_about_us"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="110dp"
+        android:id="@+id/img_language"
+
+
+        android:src="@android:drawable/ic_menu_camera"/>
+
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+
+        android:id="@+id/tv_language"
+        android:layout_below="@+id/img_language"
+        android:text="Language"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        />
+
+</RelativeLayout>

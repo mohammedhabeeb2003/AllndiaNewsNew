@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">All India News</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="nav_item_home">Home</string>
+    <string name="nav_item_hindi">Hindi</string>
+    <string name="nav_item_english">English</string>
+    <string name="nav_item_telugu">Telugu</string>
+    <string name="nav_item_marathi">Marathi</string>
+    <string name="nav_item_bengali">Bengali</string>
+    <string name="nav_item_kannada">Kannada</string>
+    <string name="nav_item_malyalam">Malyalam</string>
+    <string name="nav_item_punjabi">Punjabi</string>
+    <string name="nav_item_assamese">Assamese</string>
+    <string name="nav_item_gujarati">Gujarati</string>
+    <string name="nav_item_urdu">Urdu</string>
+
+    <!-- navigation drawer item labels  -->
+    <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_home</item>
+        <item>@string/nav_item_hindi</item>
+        <item>@string/nav_item_english</item>
+        <item>@string/nav_item_telugu</item>
+        <item>@string/nav_item_marathi</item>
+        <item>@string/nav_item_bengali</item>
+        <item>@string/nav_item_kannada</item>
+        <item>@string/nav_item_malyalam</item>
+        <item>@string/nav_item_punjabi</item>
+        <item>@string/nav_item_assamese</item>
+        <item>@string/nav_item_gujarati</item>
+        <item>@string/nav_item_urdu</item>
+    </string-array>
+
+    <string name="title_messages">Messages</string>
+    <string name="title_hindi">Hindi</string>
+    <string name="title_english">English</string>
+    <string name="title_telugu">Telugu</string>
+    <string name="title_marathi">Marathi</string>
+    <string name="title_bengali">Bengali</string>
+    <string name="title_kannada">Kannada</string>
+    <string name="title_malayalam">Malayalam</string>
+    <string name="title_punjabi">Punjabi</string>
+    <string name="title_assamese">Assamese</string>
+    <string name="title_gujarati">Gujarati</string>
+    <string name="title_urdu">Urdu</string>
+    <string name="title_home">Home</string>
+    <string name="hello_blank_fragment">Hello</string>
+    <string name="action_logout">Logout</string>
+</resources>

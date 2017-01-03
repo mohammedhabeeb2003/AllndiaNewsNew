@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "461607796109",
+    "firebase_url": "https://allindianews-54021.firebaseio.com",
+    "project_id": "allindianews-54021",
+    "storage_bucket": "allindianews-54021.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461607796109:android:316db954adf39e03",
+        "android_client_info": {
+          "package_name": "pingala.com.allindianews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461607796109-sg6nk95vkhuekau2342ug7i1nqn36a6i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pingala.com.allindianews",
+            "certificate_hash": "E832C3E4F2D5AFD37EEDF33826636066ED63E9A0"
+          }
+        },
+        {
+          "client_id": "461607796109-4flkr6hr5h8rrpf11r84v9ua3tggoauf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNffDoRVhn5waztVOqqtYX_aDGbRAHifw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461607796109-4flkr6hr5h8rrpf11r84v9ua3tggoauf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461607796109:android:56ef3a7a767ef2fc",
+        "android_client_info": {
+          "package_name": "pingala.com.navigationdrawer1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461607796109-jffur62gd449aqptn6e48fdjb1p99dki.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pingala.com.navigationdrawer1",
+            "certificate_hash": "E832C3E4F2D5AFD37EEDF33826636066ED63E9A0"
+          }
+        },
+        {
+          "client_id": "461607796109-4flkr6hr5h8rrpf11r84v9ua3tggoauf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNffDoRVhn5waztVOqqtYX_aDGbRAHifw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461607796109-4flkr6hr5h8rrpf11r84v9ua3tggoauf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
