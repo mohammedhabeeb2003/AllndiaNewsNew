@@ -1,18 +1,14 @@
 package pingala.com.navigationdrawer1.activity;
 
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.SslError;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -25,37 +21,48 @@ import android.widget.Toast;
 
 import pingala.com.navigationdrawer1.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class TabNews extends Fragment implements View.OnClickListener {
+public class NewsLive extends AppCompatActivity implements View.OnClickListener {
     private static WebView webView;
     private static ProgressBar webViewProgressBar;
     private static ImageView back, forward, refresh, close;
     String webViewUrl;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        webViewUrl = getArguments().getString("Links1");
-        Log.e("WebUrl",""+webViewUrl);
-        View v = inflater.inflate(R.layout.fragment_tab_news, container, false);
-        back = (ImageView) v.findViewById(R.id.webviewBack);
-        forward = (ImageView) v.findViewById(R.id.webviewForward);
-        refresh = (ImageView) v.findViewById(R.id.webviewReload);
-        close = (ImageView) v.findViewById(R.id.webviewClose);
-        webViewProgressBar = (ProgressBar) v.findViewById(R.id.webViewProgressBar);
-        webView = (WebView) v.findViewById(R.id.sitesWebView);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_news_live);
+        webViewUrl = getIntent().getStringExtra("Links");
+        initViews();
+        setUpWebView();
+        setListeners();
+    }
+
+    private void initViews() {
+        back = (ImageView) findViewById(R.id.webviewBack);
+        forward = (ImageView) findViewById(R.id.webviewForward);
+        refresh = (ImageView) findViewById(R.id.webviewReload);
+        close = (ImageView) findViewById(R.id.webviewClose);
+        webViewProgressBar = (ProgressBar) findViewById(R.id.webViewProgressBar);
+    }
+
+
+    private void setUpWebView() {
+        webView = (WebView) findViewById(R.id.sitesWebView);
         webView.setWebViewClient(new MyWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         LoadWebViewUrl(webViewUrl);
-        setListeners();
-        // Inflate the layout for this fragment
-        return v;
+    }
+
+    private void setListeners() {
+        back.setOnClickListener(this);
+        forward.setOnClickListener(this);
+        refresh.setOnClickListener(this);
+        close.setOnClickListener(this);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.webviewBack:
                 isWebViewCanGoBack();
                 break;
@@ -67,15 +74,48 @@ public class TabNews extends Fragment implements View.OnClickListener {
                 String url = webView.getUrl();
                 LoadWebViewUrl(url);
                 break;
+            case R.id.webviewClose:
+                finish();
+                break;
+        }
+    }
+
+    // To handle "Back" key press event for WebView to go back to previous screen.
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            isWebViewCanGoBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void isWebViewCanGoBack() {
+        if (webView.canGoBack())
+            webView.goBack();
+        else
+            finish();
+    }
+
+    private void LoadWebViewUrl(String url) {
+        if (isInternetConnected())
+            webView.loadUrl(url);
+        else {
+            refresh.setVisibility(View.VISIBLE);
+            Toast.makeText(NewsLive.this, "Oops!! There is no internet connection. Please enable your internet connection.", Toast.LENGTH_LONG).show();
 
         }
     }
-    private void setListeners() {
-        back.setOnClickListener(this);
-        forward.setOnClickListener(this);
-        refresh.setOnClickListener(this);
-        close.setOnClickListener(this);
+
+    public boolean isInternetConnected() {
+        // At activity startup we manually check the internet status and change
+        // the text status
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+
     }
+
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -106,7 +146,7 @@ public class TabNews extends Fragment implements View.OnClickListener {
             refresh.setVisibility(View.VISIBLE);
             if (webViewProgressBar.isShown())
                 webViewProgressBar.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), "Unexpected error occurred.Reload page again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewsLive.this, "Unexpected error occurred.Reload page again.", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -116,7 +156,7 @@ public class TabNews extends Fragment implements View.OnClickListener {
             refresh.setVisibility(View.VISIBLE);
             if (webViewProgressBar.isShown())
                 webViewProgressBar.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), "Unexpected error occurred.Reload page again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewsLive.this, "Unexpected error occurred.Reload page again.", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -126,31 +166,10 @@ public class TabNews extends Fragment implements View.OnClickListener {
             refresh.setVisibility(View.VISIBLE);
             if (webViewProgressBar.isShown())
                 webViewProgressBar.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), "Unexpected SSL error occurred.Reload page again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewsLive.this, "Unexpected SSL error occurred.Reload page again.", Toast.LENGTH_SHORT).show();
 
         }
 
     }
-
-    // To handle "Back" key press event for WebView to go back to previous screen.
-
-
-    private void isWebViewCanGoBack() {
-        if (webView.canGoBack())
-            webView.goBack();
-        else
-        {
-
-        }
-    }
-
-
-    private void LoadWebViewUrl(String url) {
-
-            webView.loadUrl(url);
-
-    }
-
-
-
 }
+
