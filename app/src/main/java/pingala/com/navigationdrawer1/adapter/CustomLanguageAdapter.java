@@ -1,6 +1,7 @@
 package pingala.com.navigationdrawer1.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +16,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import pingala.com.navigationdrawer1.R;
-import pingala.com.navigationdrawer1.model.ListOfLanguage;
+import pingala.com.navigationdrawer1.activity.NewsLive;
+import pingala.com.navigationdrawer1.model.ChannelList;
 
 /**
  * Created by Habeeb on 12/29/2016.
@@ -24,12 +26,13 @@ import pingala.com.navigationdrawer1.model.ListOfLanguage;
 
 public class CustomLanguageAdapter extends ArrayAdapter {
 
-    List<ListOfLanguage> languageList;
+    List<ChannelList> languageList;
     Context context;
     int resource;
     LayoutInflater layoutInflater;
-    ViewHolder holder;
-    public CustomLanguageAdapter(Context context, int resource,List<ListOfLanguage> languageList) {
+
+
+    public CustomLanguageAdapter(Context context, int resource, List<ChannelList> languageList) {
         super(context, resource,languageList);
         this.context=context;
         this.languageList = languageList;
@@ -40,34 +43,53 @@ public class CustomLanguageAdapter extends ArrayAdapter {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
-        holder = new ViewHolder();
-       if(v==null){
-          v = layoutInflater.inflate(resource,null);
-           holder.tv_language = (TextView)v.findViewById(R.id.tv_language);
-           holder.img_langauge = (ImageView)v.findViewById(R.id.img_language);
-           v.setTag(holder);
-       }
-        else{
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
-           holder = (ViewHolder)v.getTag();
 
-       } try{
-        holder.tv_language.setText(languageList.get(position).getName());
-        Picasso.with(context).load(languageList.get(position).getImage()).into(holder.img_langauge);
+        convertView = layoutInflater.inflate(resource, null);
+        TextView tv_language = (TextView) convertView.findViewById(R.id.tv_language);
+        ImageView img_langauge = (ImageView) convertView.findViewById(R.id.img_language);
+        ImageView img_live = (ImageView) convertView.findViewById(R.id.btn_live);
+        ImageView img_news = (ImageView) convertView.findViewById(R.id.btn_news);
+
+        Log.e("position", "=" + position);
+        img_news.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, NewsLive.class);
+                final String name = languageList.get(position).getName();
+                final String news = languageList.get(position).getWeb();
+                i.putExtra("Links", news);
+                i.putExtra("Channel", name);
+                Log.e("Name", "Channel" + name);
+                context.startActivity(i);
+            }
+        });
+
+        img_live.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, NewsLive.class);
+                final String name = languageList.get(position).getName();
+                final String live = languageList.get(position).getLive();
+                i.putExtra("Links", live);
+                i.putExtra("Channel", name);
+                context.startActivity(i);
+            }
+        });
+
+        try {
+            tv_language.setText(languageList.get(position).getName());
+
+            Picasso.with(context).load(languageList.get(position).getImage()).into(img_langauge);
+
+        } catch (Exception e) {
+
+            Log.e("Adapter", "" + e);
         }
-        catch (Exception e){
-            Log.e("InsideAdapter","Error"+e);
-        }
 
-        return v;
+        return convertView;
     }
 
-    static class ViewHolder{
 
-        ImageView img_langauge;
-        TextView tv_language;
-
-    }
 }

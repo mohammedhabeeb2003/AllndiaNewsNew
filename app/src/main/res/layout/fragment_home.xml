@@ -5,13 +5,10 @@
     tools:context="pingala.com.navigationdrawer1.activity.HomeFragment">
 
 
-    <GridView
-        android:id="@+id/gridview_home"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnWidth="110dp"
-        android:gravity="center"
-        android:numColumns="auto_fit" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
 </FrameLayout>

@@ -1,9 +1,12 @@
 package pingala.com.navigationdrawer1.activity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +20,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import pingala.com.navigationdrawer1.R;
 
@@ -25,16 +33,45 @@ public class NewsLive extends AppCompatActivity implements View.OnClickListener 
     private static WebView webView;
     private static ProgressBar webViewProgressBar;
     private static ImageView back, forward, refresh, close;
+    TextView tv_channelName;
+    String channelName;
     String webViewUrl;
+    Bundle webViewBundle;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_live);
+        tv_channelName = (TextView) findViewById(R.id.tv_channel);
+        MobileAds.initialize(this, "ca-app-pub-6236508034083136~6574648803");
+        mAdView = (AdView) findViewById(R.id.adView);
+
         webViewUrl = getIntent().getStringExtra("Links");
+        channelName = getIntent().getStringExtra("Channel");
+        tv_channelName.setText(channelName);
+        webView = (WebView) findViewById(R.id.sitesWebView);
+        webView.setWebViewClient(new MyWebViewClient());
+        webView.getSettings().setJavaScriptEnabled(true);
+
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+
+        // Start loading the ad in the background.
+        mAdView.loadAd(adRequest);
+
+
+        if (webViewUrl != null && webViewUrl.startsWith("https://www.youtube.com/") || webViewUrl.startsWith("https://m.youtube.com/")) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(webViewUrl)));
+
+
+        }
         initViews();
         setUpWebView();
         setListeners();
+        shareUrl();
     }
 
     private void initViews() {
@@ -45,6 +82,16 @@ public class NewsLive extends AppCompatActivity implements View.OnClickListener 
         webViewProgressBar = (ProgressBar) findViewById(R.id.webViewProgressBar);
     }
 
+    private boolean shareUrl() {
+
+        if (webViewUrl != null && webViewUrl.startsWith("whatsapp://")) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(webViewUrl)));
+            return true;
+
+        } else {
+            return false;
+        }
+    }
 
     private void setUpWebView() {
         webView = (WebView) findViewById(R.id.sitesWebView);
@@ -116,11 +163,59 @@ public class NewsLive extends AppCompatActivity implements View.OnClickListener 
 
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+
+            super.onDestroy();
+            webView.destroy();
+
+        }
+    }
+
+    /**
+     * Called when leaving the activity
+     */
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    /**
+     * Called when returning to the activity
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
+            if (url != null && url.startsWith("whatsapp://")) {
+                view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                return true;
+
+            }
+            if (url != null && url.startsWith("https://www.youtube.com/") || url.startsWith("https://m.youtube.com/")) {
+                onBackPressed();
+                return true;
+
+            } else {
+                return false;
+            }
 
         }
 
@@ -166,7 +261,7 @@ public class NewsLive extends AppCompatActivity implements View.OnClickListener 
             refresh.setVisibility(View.VISIBLE);
             if (webViewProgressBar.isShown())
                 webViewProgressBar.setVisibility(View.GONE);
-            Toast.makeText(NewsLive.this, "Unexpected SSL error occurred.Reload page again.", Toast.LENGTH_SHORT).show();
+            /*Toast.makeText(NewsLive.this, "Unexpected SSL error occurred.Reload page again.", Toast.LENGTH_SHORT).show();*/
 
         }
 

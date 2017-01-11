@@ -1,30 +1,53 @@
-<RelativeLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_about_us"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/activity_about_us"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    android:elevation="3dp"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:outlineProvider="paddedBounds"
+    android:padding="4dp">
 
     <ImageView
+        android:id="@+id/img_language"
         android:layout_width="150dp"
         android:layout_height="110dp"
-        android:id="@+id/img_language"
-
-
+        android:padding="6dp"
         android:src="@android:drawable/ic_menu_camera"/>
 
+    <LinearLayout
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/btn_news"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/news1" />
+
+        <ImageButton
+            android:id="@+id/btn_live"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/play" />
+
+    </LinearLayout>
 
     <TextView
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-
         android:id="@+id/tv_language"
+        android:layout_width="150dp"
+
+        android:layout_height="40dp"
         android:layout_below="@+id/img_language"
-        android:text="Language"
         android:gravity="center"
-        android:textStyle="bold"
+        android:text="Language"
         android:textSize="16dp"
+        android:textStyle="bold"
         />
 
-</RelativeLayout>
+</LinearLayout>

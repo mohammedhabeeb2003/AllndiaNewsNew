@@ -6,47 +6,28 @@
     <string name="drawer_close">Close</string>
 
     <string name="nav_item_home">Home</string>
-    <string name="nav_item_hindi">Hindi</string>
-    <string name="nav_item_english">English</string>
-    <string name="nav_item_telugu">Telugu</string>
-    <string name="nav_item_marathi">Marathi</string>
-    <string name="nav_item_bengali">Bengali</string>
-    <string name="nav_item_kannada">Kannada</string>
-    <string name="nav_item_malyalam">Malyalam</string>
-    <string name="nav_item_punjabi">Punjabi</string>
-    <string name="nav_item_assamese">Assamese</string>
-    <string name="nav_item_gujarati">Gujarati</string>
-    <string name="nav_item_urdu">Urdu</string>
 
+    <!--<string name="nav_item_setting">ListOfLanguage</string>
+-->
     <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_home</item>
-        <item>@string/nav_item_hindi</item>
-        <item>@string/nav_item_english</item>
-        <item>@string/nav_item_telugu</item>
-        <item>@string/nav_item_marathi</item>
-        <item>@string/nav_item_bengali</item>
-        <item>@string/nav_item_kannada</item>
-        <item>@string/nav_item_malyalam</item>
-        <item>@string/nav_item_punjabi</item>
-        <item>@string/nav_item_assamese</item>
-        <item>@string/nav_item_gujarati</item>
-        <item>@string/nav_item_urdu</item>
+
+        <!--    <item>@string/nav_item_setting</item>-->
     </string-array>
 
-    <string name="title_messages">Messages</string>
-    <string name="title_hindi">Hindi</string>
-    <string name="title_english">English</string>
-    <string name="title_telugu">Telugu</string>
-    <string name="title_marathi">Marathi</string>
-    <string name="title_bengali">Bengali</string>
-    <string name="title_kannada">Kannada</string>
-    <string name="title_malayalam">Malayalam</string>
-    <string name="title_punjabi">Punjabi</string>
-    <string name="title_assamese">Assamese</string>
-    <string name="title_gujarati">Gujarati</string>
-    <string name="title_urdu">Urdu</string>
+
     <string name="title_home">Home</string>
     <string name="hello_blank_fragment">Hello</string>
     <string name="action_logout">Logout</string>
+    <string name="title_firebase">Firebase</string>
+    <string name="quickstart_message">Click the SUBSCRIBE TO NEWS button below to subscribe to the
+        news topic. Messages sent to the news topic will be received. The LOG TOKEN button logs the
+        InstanceID token to logcat.</string>
+    <string name="subscribe_to_news">Subscribe To News</string>
+    <string name="log_token">Log Token</string>
+
+    <string name="msg_subscribed">Subscribed to news topic</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+    <string name="banner_ad_unit_id">ca-app-pub-6236508034083136/9528115203</string>
 </resources>

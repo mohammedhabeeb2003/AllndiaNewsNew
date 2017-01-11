@@ -1,236 +1,99 @@
 package pingala.com.navigationdrawer1.activity;
 
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.mukesh.tinydb.TinyDB;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.lang.reflect.*;
 
 import pingala.com.navigationdrawer1.R;
-import pingala.com.navigationdrawer1.adapter.CustomLanguageAdapter;
-import pingala.com.navigationdrawer1.model.ListOfLanguage;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
-
-    FirebaseDatabase database;
-    DatabaseReference myRef;
-    GridView gv_home;
-    ProgressDialog pd;
-    List<ListOfLanguage> langList;
-    CustomLanguageAdapter ca;
-    ListOfLanguage la;
-    FragmentManager fragmentManager;
-    MainActivity activity;
-    public HomeFragment() {
-        // Required empty public constructor
-    }
-
+    RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        gv_home = (GridView)rootView.findViewById(R.id.gridview_home);
 
-        new MyTask().execute();
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
+
+        LoadingData loadingData = new LoadingData(getActivity(), recyclerView);
+        loadingData.execute();
         // Inflate the layout for this fragment
         return rootView;
     }
 
-    class MyTask extends AsyncTask<Void,Void,Void>{
+  /*  class LoadingData1 extends AsyncTask<Void, Void, Void> {
+        Context context;
+        String address = "http://www.sciencemag.org/rss/news_current.xml";
+        ProgressDialog progressDialog;
+        ArrayList<FeedItem> feedItems;
 
 
         @Override
         protected void onPreExecute() {
+            progressDialog.show();
             super.onPreExecute();
-            pd = new ProgressDialog(getActivity());
-            pd.setTitle("Loading");
-            pd.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-          langList = new ArrayList<>();
-            database = FirebaseDatabase.getInstance();
-            myRef = database.getReferenceFromUrl("https://allindianews-54021.firebaseio.com/Language/ListofLanguage");
-            myRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for( DataSnapshot data: dataSnapshot.getChildren()){
-
-                        String image =  data.child("Image").getValue(String.class);
-                        String name =  data.child("Name").getValue(String.class);
-                        la = new ListOfLanguage(name,image);
-                        langList.add(la);
-
-                    }
-try {
-    ca = new CustomLanguageAdapter(getActivity(), R.layout.custom_grid_view, langList);
-    gv_home.setAdapter(ca);
-}
-catch (Exception e){
-    Log.e("Adapter","Error"+e);
-}
-                    pd.dismiss();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-
-            return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            progressDialog.dismiss();
+            MyAdapter adapter = new MyAdapter(context, feedItems);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.addItemDecoration(new VerticalSpace(50));
+            recyclerView.setAdapter(adapter);
+        }
 
+        @Override
+        protected Void doInBackground(Void... params) {
+            feedItems = new ArrayList<>();
+            String json_url = "https://newsapi.org/v1/articles?source=the-times-of-india&sortBy=latest&apiKey=20be3ce23c444051a34dff2ac6161a10";
+            if (json_url!= null) {
+                try {
+                    URL url = new URL(json_url);
+                    URLConnection con = url.openConnection();
+                    HttpURLConnection http = (HttpURLConnection) con;
+                    http.setRequestMethod("GET");
+                    http.connect();
 
+                    InputStream is = http.getInputStream();
+                    InputStreamReader isr = new InputStreamReader(is);
+                    BufferedReader br = new BufferedReader(isr);
+                    String JSON_STRING = br.readLine();
 
-            gv_home.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    JSONObject js = new JSONObject(JSON_STRING);
+                    JSONArray ja = js.getJSONArray("articles");
 
-                    displayView(position);
+                    for (int i = 0; i < ja.length(); i++) {
+                        JSONObject json = ja.getJSONObject(i);
+                        FeedItem fi = new FeedItem();
+
+                        fi.setTitle(json.getString("title"));
+                        fi.setDescription(json.getString("description"));
+                        fi.setLink(json.getString("url"));
+                        fi.setPubDate(json.getString("publishedAt"));
+                        fi.setThumbnailUrl("urlToImage");
+                        feedItems.add(fi);
+                        Log.e("feedItem", "=" + feedItems.size());
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            });
-
+            }
+            return null;
         }
-    }
-    public void displayView(int position) {
-        int count=0;
-        Bundle b = new Bundle();
-        LanguageFragment fragment = new LanguageFragment();
-
-        String title = getString(R.string.app_name);
-        switch (position) {
-            case 0:
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.fade_in,
-                 android.R.anim.fade_out).replace(R.id.container_body,fragment).commit();
-                b.putString("Language","https://allindianews-54021.firebaseio.com/Language/Hindi");
-                b.putString("Title",getString(R.string.title_hindi));
-                fragment.setArguments(b);
-
-                break;
-            case 1:
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out).replace(R.id.container_body,fragment).commit();
-                b.putString("Language","https://allindianews-54021.firebaseio.com/Language/English");
-                b.putString("Title",getString(R.string.title_english));
-                fragment.setArguments(b);
-                break;
-            case 2:
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out).replace(R.id.container_body,fragment).commit();
-                b.putString("Language","https://allindianews-54021.firebaseio.com/Language/Telugu");
-                b.putString("Title",getString(R.string.title_telugu));
-                fragment.setArguments(b);
-                break;
-            case 3:
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out).replace(R.id.container_body,fragment).commit();
-                b.putString("Language","https://allindianews-54021.firebaseio.com/Language/Marathi");
-                b.putString("Title",getString(R.string.title_marathi));
-                fragment.setArguments(b);
-                break;
-            case 4:
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out).replace(R.id.container_body,fragment).commit();
-                b.putString("Language","https://allindianews-54021.firebaseio.com/Language/Bengali");
-                b.putString("Title",getString(R.string.title_bengali));
-                fragment.setArguments(b);
-                break;
-            case 5:
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out).replace(R.id.container_body,fragment).commit();
-                b.putString("Language","https://allindianews-54021.firebaseio.com/Language/Kannada");
-                b.putString("Title",getString(R.string.title_kannada));
-                fragment.setArguments(b);
-                break;
-            case 6:
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out).replace(R.id.container_body,fragment).commit();
-                b.putString("Language","https://allindianews-54021.firebaseio.com/Language/Malayalam");
-                b.putString("Title",getString(R.string.title_malayalam));
-                fragment.setArguments(b);
-                break;
-            case 7:
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out).replace(R.id.container_body,fragment).commit();
-                b.putString("Language","https://allindianews-54021.firebaseio.com/Language/Punjabi");
-                b.putString("Title",getString(R.string.title_punjabi));
-                fragment.setArguments(b);
-                break;
-            case 8:
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out).replace(R.id.container_body,fragment).commit();
-                b.putString("Language","https://allindianews-54021.firebaseio.com/Language/Assame");
-                b.putString("Title",getString(R.string.title_assamese));
-                fragment.setArguments(b);
-                break;
-            case 9:
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out).replace(R.id.container_body,fragment).commit();
-                b.putString("Language","https://allindianews-54021.firebaseio.com/Language/Gujarati");
-                b.putString("Title",getString(R.string.title_gujarati));
-                fragment.setArguments(b);
-                break;
-            case 10:
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out).replace(R.id.container_body,fragment).commit();
-                b.putString("Language","https://allindianews-54021.firebaseio.com/Language/Urdu");
-                b.putString("Title",getString(R.string.title_urdu));
-                fragment.setArguments(b);
-                break;
-            default:
-                break;
-        }
-
-        if (fragment != null) {
-
-
-
-            // set the toolbar title
-
-        }
-
-    }
-
+    }*/
 }

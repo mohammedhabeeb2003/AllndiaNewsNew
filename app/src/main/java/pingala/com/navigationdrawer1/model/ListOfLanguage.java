@@ -9,19 +9,6 @@ import android.os.Parcelable;
 
 public class ListOfLanguage implements Parcelable{
 
-    String name;
-    String image;
-
-    public ListOfLanguage(String name, String image) {
-        this.name = name;
-        this.image = image;
-    }
-
-    protected ListOfLanguage(Parcel in) {
-        name = in.readString();
-        image = in.readString();
-    }
-
     public static final Creator<ListOfLanguage> CREATOR = new Creator<ListOfLanguage>() {
         @Override
         public ListOfLanguage createFromParcel(Parcel in) {
@@ -33,6 +20,43 @@ public class ListOfLanguage implements Parcelable{
             return new ListOfLanguage[size];
         }
     };
+    String name;
+    String image;
+    String web;
+    String live;
+
+    public ListOfLanguage(String name, String image, String web, String live) {
+        this.name = name;
+        this.image = image;
+        this.web = web;
+        this.live = live;
+    }
+
+    public ListOfLanguage(String name, String image) {
+        this.name = name;
+        this.image = image;
+    }
+
+    protected ListOfLanguage(Parcel in) {
+        name = in.readString();
+        image = in.readString();
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
+    }
+
+    public String getLive() {
+        return live;
+    }
+
+    public void setLive(String live) {
+        this.live = live;
+    }
 
     public String getName() {
         return name;
