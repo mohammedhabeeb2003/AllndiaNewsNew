@@ -1,21 +1,32 @@
 package pingala.com.navigationdrawer1.activity;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import pingala.com.navigationdrawer1.R;
 
-public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener{
+public class MainActivity extends AppCompatActivity /*implements FragmentDrawer.FragmentDrawerListener*/{
 
-    private static String TAG = MainActivity.class.getSimpleName();
+
     private Toolbar toolbar;
     private FragmentDrawer drawerFragment;
 
@@ -24,14 +35,16 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        drawerFragment =(FragmentDrawer)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        setSupportActionBar(toolbar);
+       /* getSupportActionBar().setDisplayShowHomeEnabled(true);*/
+
+       /* drawerFragment =(FragmentDrawer)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer,(DrawerLayout)findViewById(R.id.drawer_layout),toolbar);
 
         drawerFragment.setDrawerListener(this);
-        displayView(0);
+*/
+
     }
 
     @Override
@@ -55,11 +68,11 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
         return super.onOptionsItemSelected(item);
     }
-    @Override
+   /* @Override
     public void onDrawerItemSelected(View view, int position) {
-        displayView(position);
+     *//*   displayView(position);*//*
 
-    }
+    }*/
 
     public void displayView(int position) {
 
@@ -82,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_in_down, R.anim.slide_out_down, R.anim.slide_out_up);
-            fragmentTransaction.replace(R.id.container_body, fragment);
+            fragmentTransaction.replace(R.id.fragment_news_channel, fragment);
 
             fragmentTransaction.commit();
             getSupportActionBar().setTitle(getString(R.string.app_name));
@@ -92,19 +105,17 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
 
+
         if (getSupportActionBar().getTitle().equals("All India News")) {
-            finish();
+
+            finishAffinity();
         } else {
 
-            HomeFragment fragment = new HomeFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_body, fragment);
-            fragmentTransaction.commit();
-            getSupportActionBar().setTitle(getString(R.string.app_name));
+         startActivity(getIntent());
         }
 
 
@@ -112,4 +123,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
 
     }
+
+
+
 }
+

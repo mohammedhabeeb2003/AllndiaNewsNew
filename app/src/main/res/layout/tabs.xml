@@ -12,7 +12,7 @@
             style="@style/Base.TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"
+            android:background="@color/colorPrimaryDark"
             android:gravity="center"
             android:text="News"
             android:textColor="@android:color/white" />
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="6dp"
             android:layout_gravity="bottom"
-            android:background="@android:color/white" />
+            android:background="@color/colorPrimary" />
     </FrameLayout>
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@android:color/transparent"
+        android:background="@color/colorPrimaryDark"
         android:gravity="center"
         android:text="Channels"
         android:textColor="@android:color/white" />

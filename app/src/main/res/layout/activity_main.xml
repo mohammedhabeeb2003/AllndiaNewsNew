@@ -22,24 +22,26 @@
                 layout="@layout/toolbar" />
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/container_body"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:elevation="8dp"
-            android:outlineProvider="bounds" />
+        <fragment
+            android:id="@+id/fragment_news_channel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="pingala.com.navigationdrawer1.activity.NewsChannel"
+            app:layout="@layout/fragment_news_channel"
+            tools:layout="@layout/fragment_news_channel"
+            >
+
+        </fragment>
 
     </LinearLayout>
 
 
-    <fragment
+   <!-- <fragment
         android:id="@+id/fragment_navigation_drawer"
         android:name="pingala.com.navigationdrawer1.activity.FragmentDrawer"
         android:layout_width="@dimen/nav_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:layout="@layout/fragment_navigation_drawer"
-        tools:layout="@layout/fragment_navigation_drawer" />
+        />-->
 
 </android.support.v4.widget.DrawerLayout>

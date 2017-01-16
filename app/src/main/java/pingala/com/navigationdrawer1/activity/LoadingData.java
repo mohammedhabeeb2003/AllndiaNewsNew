@@ -7,6 +7,7 @@ package pingala.com.navigationdrawer1.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,6 +39,7 @@ class LoadingData extends AsyncTask<Void, Void, Void> {
     ProgressDialog progressDialog;
     ArrayList<FeedItem> feedItems;
     RecyclerView recyclerView;
+    MyAdapter adapter;
     URL url;
 
     public LoadingData(Context context, RecyclerView recyclerView) {
@@ -55,12 +57,12 @@ class LoadingData extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        progressDialog.dismiss();
-        MyAdapter adapter = new MyAdapter(context, feedItems);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.addItemDecoration(new VerticalSpace(50));
+
+
+
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        progressDialog.dismiss();
 
 
     }
@@ -97,6 +99,8 @@ class LoadingData extends AsyncTask<Void, Void, Void> {
                     feedItems.add(fi);
                     Log.e("feedItem", "=" + feedItems.size());
                 }
+
+
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -104,7 +108,9 @@ class LoadingData extends AsyncTask<Void, Void, Void> {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         }
+        adapter = new MyAdapter(context, feedItems);
         return null;
     }
 
