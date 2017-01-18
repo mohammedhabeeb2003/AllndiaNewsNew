@@ -47,7 +47,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         final FeedItem current = feedItems.get(position);
         holder.Title.setText(current.getTitle());
         holder.Description.setText(current.getDescription());
-        holder.share.setOnClickListener(new View.OnClickListener() {
+       /* holder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent sendIntent = new Intent();
@@ -56,7 +56,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 sendIntent.setType("text/plain");
                 context.startActivity(sendIntent);
             }
-        });
+        });*/
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,11 +87,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            Title = (TextView) itemView.findViewById(R.id.title_text);
-            Description = (TextView) itemView.findViewById(R.id.description_text);
-            Thumbnail = (ImageView) itemView.findViewById(R.id.thumb_img);
+            Title = (TextView) itemView.findViewById(R.id.news_title);
+            Description = (TextView) itemView.findViewById(R.id.news_description);
+            Thumbnail = (ImageView) itemView.findViewById(R.id.img_news);
             cardView = (CardView) itemView.findViewById(R.id.cardview);
-            share = (ImageView)itemView.findViewById(R.id.share);
+          /*  share = (ImageView)itemView.findViewById(R.id.share);*/
 
         }
     }

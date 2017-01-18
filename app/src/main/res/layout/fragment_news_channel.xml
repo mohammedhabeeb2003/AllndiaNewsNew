@@ -16,6 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
+        android:elevation="3dp"
+        android:outlineProvider="bounds"
         app:tabMode="fixed"
         app:tabGravity="fill"/>
 

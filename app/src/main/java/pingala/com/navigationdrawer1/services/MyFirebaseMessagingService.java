@@ -17,11 +17,12 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import pingala.com.navigationdrawer1.activity.MainActivity;
+import pingala.com.navigationdrawer1.activity.NewsLive;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
-
+    String links;
     /**
      * Called when message is received.
      *
@@ -46,11 +47,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
+            Object obj = remoteMessage.getData().get("Links");
+            links =(String)obj;
+            Log.e("Link","="+links);
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
         }
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
+
+            sendNotification(links);
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
 
