@@ -7,7 +7,6 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:id="@+id/ll_newsChannel"
     android:orientation="vertical">
     <!-- TODO: Update blank fragment layout -->
@@ -19,6 +18,8 @@
         android:elevation="3dp"
         android:outlineProvider="bounds"
         app:tabMode="fixed"
+        app:tabTextColor="#ffffff"
+        app:tabIndicatorColor="#ffffff"
         app:tabGravity="fill"/>
 
     <android.support.v4.view.ViewPager
